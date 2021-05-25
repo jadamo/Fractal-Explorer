@@ -4,5 +4,21 @@
 <title>Mandelbrot Set Explorer 0.1</title>
 <meta charset="utf-8"> 
 </head>
-	
+
+<script id="mandelbrot-vs" type="x-shader/x-vertex">
+</script>
+
+<script id="mandelbrot-fs" type="x-shader/x-fragment">
+    precision mediump float;
+    varying vec4 vColor;
+    void main(void) {
+        gl_FragColor = vColor;
+    }
+</script>
+
+<script src="webgl-utils.js"></script>
 <script src="Mandelbrot.js"></script> 
+<body onload="startup();">
+        <canvas id="myGLCanvas" width="900" height="900"></canvas>
+</body>
+</html>
