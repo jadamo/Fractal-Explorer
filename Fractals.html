@@ -6,6 +6,16 @@
 </head>
 
 <script id="mandelbrot-vs" type="x-shader/x-vertex">
+    attribute vec3 aVertexPosition;
+    attribute vec4 aVertexColor;
+
+    uniform mat4 scaleMatrix;
+    varying vec4 vColor;
+
+    void main(void) {
+        gl_Position = scaleMatrix*vec4(aVertexPosition, 1.0);
+        vColor = aVertexColor;
+    }
 </script>
 
 <script id="mandelbrot-fs" type="x-shader/x-fragment">
