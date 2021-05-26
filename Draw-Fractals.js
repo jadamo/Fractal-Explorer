@@ -22,7 +22,8 @@ var MBrot;
 /** @global the scale matrix**/
 var scaleMatrix = glMatrix.mat4.create();
 
-
+/** @global The factor to scale our image by */
+var scaleFactor = 0.5;
 
  /**
  * Creates a context for WebGL
@@ -33,12 +34,9 @@ function createGLContext(canvas) {
     var names = ["webgl", "experimental-webgl"];
     var context = null;
     for (var i=0; i < names.length; i++) {
-      try {
-        context = canvas.getContext(names[i]);
-      } catch(e) {}
-      if (context) {
-        break;
-      }
+      try { context = canvas.getContext(names[i]); } 
+      catch(e) {}
+      if (context) { break; }
     }
     if (context) {
       context.viewportWidth = canvas.width;
@@ -60,9 +58,7 @@ function loadShaderFromDOM(id) {
     
     // If we don't find an element with the specified id
     // we do an early exit 
-    if (!shaderScript) {
-      return null;
-    }
+    if (!shaderScript) { return null; }
     
     // Loop through the children for the found DOM element and
     // build up the shader source code as a string
@@ -80,9 +76,7 @@ function loadShaderFromDOM(id) {
       shader = gl.createShader(gl.FRAGMENT_SHADER);
     } else if (shaderScript.type == "x-shader/x-vertex") {
       shader = gl.createShader(gl.VERTEX_SHADER);
-    } else {
-      return null;
-    }
+    } else {return null;}
    
     gl.shaderSource(shader, shaderSource);
     gl.compileShader(shader);
@@ -98,8 +92,6 @@ function loadShaderFromDOM(id) {
 *  Sends matrices to shader
 */
 function setMatrixUniforms() {
-
-  gl.uniformMatrix4fv(shaderProgram.rMatrixUniform, false, rotateMatrix);
   gl.uniformMatrix4fv(shaderProgram.sMatrixUniform, false, scaleMatrix);
 }
 
@@ -107,8 +99,8 @@ function setMatrixUniforms() {
 * Setup the fragment and vertex shaders
 */
 function setupShaders() {
-  vertexShader = loadShaderFromDOM("Mandelbrot-vs");
-  fragmentShader = loadShaderFromDOM("Mandelbrot-fs");
+  vertexShader = loadShaderFromDOM("mandelbrot-vs");
+  fragmentShader = loadShaderFromDOM("mandelbrot-fs");
   
   shaderProgram = gl.createProgram();
   gl.attachShader(shaderProgram, vertexShader);
@@ -145,6 +137,10 @@ function setupBuffers(){
 function draw() { 
   gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT); 
+
+  glMatrix.mat4.identity(scaleMatrix);
+
+  setMatrixUniforms();
   Mbrot.drawMandelbrot();
 }
 
@@ -164,7 +160,6 @@ function startup() {
   setupBuffers();
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
   gl.enable(gl.DEPTH_TEST);
-  t_prev = Date.now();
   tick();
 }
 
