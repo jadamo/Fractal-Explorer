@@ -21,6 +21,7 @@ var ImageData;
 
 var ZoomX = -1; var ZoomY = -1;
 var ZoomPixels;
+var justZoomed = 0;
 
 //----------------------------------------------------------------------------------
 /**
@@ -46,12 +47,24 @@ function setZoomPoint(event, canvas){
   Mbrot.setZoomPoint(x, y);
 
   // draws marker on the new zoom point, and removes marker on the old one
-  if(ZoomX != -1){ ctx.putImageData(ZoomPixels, ZoomX-1, ZoomY-1); }
-  ZoomPixels = ctx.getImageData(x-1, y-1, 3, 3);
+  var dx = canvas.width / 2 / 2; var dy = canvas.height / 2 / 2;
+  if(justZoomed == 0){ ctx.putImageData(ZoomPixels, ZoomX-dx-1, ZoomY-dy-1); }
+  ZoomPixels = ctx.getImageData(x-dx-1, y-dy-1, 2*dx+2, 2*dy+2);
 
   ctx.fillStyle = 'rgb(255, 255, 255)';
-  ctx.fillRect(x-1,y-1, 3, 3);
-  ZoomX = x; ZoomY = y;
+  ctx.fillRect(x,y, 1, 1);
+  ctx.beginPath();
+  ctx.lineWidth = "1";
+  ctx.strokeStyle = "white";
+  ctx.rect(x-dx, y-dy, 2*dx, 2*dy);
+  ctx.stroke();
+  ZoomX = x; ZoomY = y; justZoomed = 0;
+}
+
+function changeScale(scale){
+  Mbrot.changeScale(scale);
+  draw();
+  justZoomed = 1;
 }
 
 /**
@@ -63,5 +76,6 @@ function startup() {
 
   Mbrot = new Mandelbrot();
   ImageData = ctx.createImageData(canvas.width, canvas.height);
+  justZoomed = 1;
   draw();
 }

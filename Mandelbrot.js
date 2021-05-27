@@ -23,14 +23,19 @@ class Mandelbrot{
     this.Iterations = [];
 
     // point to zoom in / out to
-    this.zoomA = -1;
-    this.zoomB = -1;
+    this.zoomA = 0.;
+    this.zoomB = 0.;
+
+    // distance from center point to the bounds (this is how we keep tack of the current zoom level)
+    this.deltaA = 2.0;
+    this.deltaB = 2.0;
 
     // initialize points
     this.fillBuffers();
   }
 
   fillBuffers(){
+    this.A = []; this.B = []; this.Iterations = [];
     for(var y = 0; y < this.height; y++){
         for(var x = 0; x < this.width; x++){
             var a = this.minA + (x / this.width)*(this.maxA - this.minA)
@@ -97,5 +102,22 @@ class Mandelbrot{
     setZoomPoint(x, y){
         this.zoomA = this.minA + (x / this.width)*(this.maxA - this.minA)
         this.zoomB = this.minB + (y / this.height)*(this.maxB - this.minB)
+    }
+
+    /**
+    * Zooms in or out of the fractal by a given scale factor
+    * @param {number} factor to scale points by
+    */
+    changeScale(scale){
+
+        this.deltaA *= scale; this.deltaB *= scale;
+        this.minA = this.zoomA - this.deltaA;
+        this.maxA = this.zoomA + this.deltaA;
+        this.minB = this.zoomB - this.deltaB;
+        this.maxB = this.zoomB + this.deltaB;
+
+        console.log(this.minA, this.maxA, this.minB, this.maxB);
+        // update grid based on new bounds
+        this.fillBuffers();
     }
 }

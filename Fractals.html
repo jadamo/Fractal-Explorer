@@ -1,13 +1,21 @@
 <!DOCTYPE HTML> 
 <html lang="en"> 
+    
 <head>
-    <title>Mandelbrot Set Explorer 0.2</title>
+    <title>Mandelbrot Set Explorer 0.3</title>
     <meta charset="utf-8"> 
     <style>
+        table, th, td {
+            border: 1px solid black;
+            column-gap: 15px;
+        }
+        table {
+            border-style: hidden;
+            border-spacing: 10px;
+        }
         /* row / column information*/
         .column {
             float: left;
-            width: 50%;
         }
         .row:after {
             content: "";
@@ -43,13 +51,34 @@
 <script src="Mandelbrot.js"></script>
 <script src="Draw-Fractals.js"></script> 
 <body onload="startup();">
-    <div class="row">
-        <div class="column"></div>
-            <canvas id="FractalCanvas" width="900" height="900"></canvas>
-        </div>
-        <div class="column">
-            this is a test!
-        </div>
-    </div>
+    <table>
+        <tbody>
+            <tr valign="top">
+                <td>
+                    <div id="imagediv">
+                        <div id="canvas-holder">
+                            <canvas id="FractalCanvas" width="900" height="900"></canvas>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div id="controls">
+                        <div class="group">
+                            <p>
+                                <button type="button" type="submit" onclick="startup();">Reset></button>
+                                <button type="button" style="margin-left:20px" type="submit" onclick="startup();">Reset All></button>
+                            </p>
+                        </div>
+                        <div class="group"></div>
+                            <p>
+                                <button type="button" type="submit" onclick="changeScale(0.5);">Zoom in</button>
+                                <button type="button" type="submit" onclick="changeScale(2);">Zoom out</button>
+                            </p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        </table> 
 </body>
 </html>
