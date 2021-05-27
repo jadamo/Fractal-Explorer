@@ -6,7 +6,7 @@
 class Mandelbrot{
   
   constructor(){
-    this.maxIterations = 800;
+    this.maxIterations = 1000;
 
     // width and height of the display (TODO: automatically get this from canvas)
     this.width = 900; this.height = 900;
@@ -21,6 +21,10 @@ class Mandelbrot{
     this.A = [];
     this.B = [];
     this.Iterations = [];
+
+    // point to zoom in / out to
+    this.zoomA = -1;
+    this.zoomB = -1;
 
     // initialize points
     this.fillBuffers();
@@ -76,9 +80,10 @@ class Mandelbrot{
                 var idx2 = y * (this.width * 4) + x * 4;
 
                 //this assignment of colors is temprary - change this later!
-                var r = ((this.Iterations[idx1]*3) % 255);
-                var g = ((this.Iterations[idx1]*3) % 255);
-                var b = ((this.Iterations[idx1]*3) % 255);
+                var iter = this.Iterations[idx1];
+                var r = 255 - Math.abs(((iter*4) % 510) - 255);
+                var g = 255 - Math.abs(((iter*4) % 510) - 255);
+                var b = 255 - Math.abs(((iter*4) % 510) - 255);
 
                 ImageData.data[idx2]   = r;
                 ImageData.data[idx2+1] = g;
@@ -87,5 +92,10 @@ class Mandelbrot{
             }
         }
     return ImageData;
+    }
+
+    setZoomPoint(x, y){
+        this.zoomA = this.minA + (x / this.width)*(this.maxA - this.minA)
+        this.zoomB = this.minB + (y / this.height)*(this.maxB - this.minB)
     }
 }

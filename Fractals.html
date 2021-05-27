@@ -1,8 +1,20 @@
 <!DOCTYPE HTML> 
 <html lang="en"> 
 <head>
-<title>Mandelbrot Set Explorer 0.1</title>
-<meta charset="utf-8"> 
+    <title>Mandelbrot Set Explorer 0.2</title>
+    <meta charset="utf-8"> 
+    <style>
+        /* row / column information*/
+        .column {
+            float: left;
+            width: 50%;
+        }
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
 </head>
 
 <script id="mandelbrot-vs" type="x-shader/x-vertex">
@@ -31,6 +43,13 @@
 <script src="Mandelbrot.js"></script>
 <script src="Draw-Fractals.js"></script> 
 <body onload="startup();">
-        <canvas id="FractalCanvas" width="900" height="900"></canvas>
+    <div class="row">
+        <div class="column"></div>
+            <canvas id="FractalCanvas" width="900" height="900"></canvas>
+        </div>
+        <div class="column">
+            this is a test!
+        </div>
+    </div>
 </body>
 </html>
