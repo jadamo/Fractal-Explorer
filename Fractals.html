@@ -5,80 +5,49 @@
     <title>Mandelbrot Set Explorer 0.3</title>
     <meta charset="utf-8"> 
     <style>
-        table, th, td {
-            border: 1px solid black;
-            column-gap: 15px;
+        .wrapper {
+            display: grid;
+            grid-template-columns: 3fr 1fr 3fr;
+            column-gap: 20px;
         }
-        table {
-            border-style: hidden;
-            border-spacing: 10px;
+        .canvas1 {
+            border:2px solid #000
         }
-        /* row / column information*/
-        .column {
-            float: left;
+        .control-panel {
+            border:1px solid #000;
+            grid-column-start: 2;
+            grid-column-end: 3;
+            grid-row-start: 1;
+            grid-row-end: 3;
+            display: grid;
+            grid-template-columns: 1fr;
         }
-        .row:after {
-            content: "";
-            display: table;
-            clear: both;
-        }
+
     </style>
 </head>
-
-<script id="mandelbrot-vs" type="x-shader/x-vertex">
-    attribute vec3 aVertexPosition;
-    attribute vec4 aVertexColor;
-
-    uniform mat4 scaleMatrix;
-    varying vec4 vColor;
-
-    void main(void) {
-        gl_Position = scaleMatrix*vec4(aVertexPosition, 1.0);
-        vColor = aVertexColor;
-    }
-</script>
-
-<script id="mandelbrot-fs" type="x-shader/x-fragment">
-    precision mediump float;
-    varying vec4 vColor;
-    void main(void) {
-        gl_FragColor = vColor;
-    }
-</script>
 
 <script src="webgl-utils.js"></script>
 <script src="gl-matrix-min.js"></script>
 <script src="Mandelbrot.js"></script>
 <script src="Draw-Fractals.js"></script> 
 <body onload="startup();">
-    <table>
-        <tbody>
-            <tr valign="top">
-                <td>
-                    <div id="imagediv">
-                        <div id="canvas-holder">
-                            <canvas id="FractalCanvas" width="900" height="900"></canvas>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <div id="controls">
-                        <div class="group">
-                            <p>
-                                <button type="button" type="submit" onclick="startup();">Reset></button>
-                                <button type="button" style="margin-left:20px" type="submit" onclick="startup();">Reset All></button>
-                            </p>
-                        </div>
-                        <div class="group"></div>
-                            <p>
-                                <button type="button" type="submit" onclick="changeScale(0.5);">Zoom in</button>
-                                <button type="button" type="submit" onclick="changeScale(2);">Zoom out</button>
-                            </p>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-        </table> 
+    <div class="header">
+        Fractal Viewer
+    </div>
+    <div class="wrapper">
+        <div class="canvas1">
+            <canvas id="FractalCanvas" width="900" height="900"></canvas>
+        </div>
+        <div class="control-panel">
+            <div class="nested" style="border:1px solid #000">
+                <button type="button" type="submit" onclick="startup();">Reset></button>
+                <button type="button" style="margin-left:20px" type="submit" onclick="startup();">Reset All></button>
+            </div>
+            <div class="nested" style="border:1px solid #000">
+                <button type="button" type="submit" onclick="changeScale(0.5);">Zoom in</button>
+                <button type="button" style="margin-left:20px" type="submit" onclick="changeScale(2);">Zoom out</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
