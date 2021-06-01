@@ -47,6 +47,15 @@
                 <button type="button" type="submit" onclick="changeScale(0.5);">Zoom in</button>
                 <button type="button" style="margin-left:20px" type="submit" onclick="changeScale(2);">Zoom out</button>
             </div>
+            <div>
+                <select Name="colormap" id="colormap" Size="2">  
+                    <option value="1" selected="selected"> Grayscale </option>  
+                    <option value="2"> Rainbow </option>  
+                </select>
+                <input type="submit" onclick="reloadColormap();" value="Reload colormap">
+            </div>
+            <div></div>
+            <div></div>
         </div>
     </div>
 </body>

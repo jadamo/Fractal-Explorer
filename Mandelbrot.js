@@ -76,19 +76,27 @@ class Mandelbrot{
     /**
     * loads in color data to a canvas ImageData object for drawing
     * @param {ImageData object} ImageData 
+    * @param {number} which colormap to use
     * @return {ImageData object} ImageData based on Mandelbrot values
     */
-    drawMandelbrot(ImageData){
+    drawMandelbrot(ImageData, map){
         for(var x = 0; x < this.width; x++){
             for(var y = 0; y < this.height; y++){
                 var idx1 = y * (this.height) + x
                 var idx2 = y * (this.width * 4) + x * 4;
 
-                //this assignment of colors is temprary - change this later!
-                var iter = this.Iterations[idx1];
-                var r = 255 - Math.abs(((iter*4) % 510) - 255);
-                var g = 255 - Math.abs(((iter*4) % 510) - 255);
-                var b = 255 - Math.abs(((iter*4) % 510) - 255);
+                if(map == 1){
+                    var iter = this.Iterations[idx1];
+                    var r = 255 - Math.abs(((iter*4) % 510) - 255);
+                    var g = 255 - Math.abs(((iter*4) % 510) - 255);
+                    var b = 255 - Math.abs(((iter*4) % 510) - 255);
+                }
+                else if(map == 2){
+                    var iter = this.Iterations[idx1];
+                    var r = 255 - Math.abs(((iter*6) % 510) - 255);
+                    var g = 255 - Math.abs(((iter*6) % 510) - 255);
+                    var b = 255 - Math.abs(((iter*6) % 510) - 255);
+                }
 
                 ImageData.data[idx2]   = r;
                 ImageData.data[idx2+1] = g;
