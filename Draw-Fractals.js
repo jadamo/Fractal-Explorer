@@ -93,6 +93,11 @@ function changeScale(scale){
  * Startup function called from html code to start program.
  */
 function startup() {
+
+  if(!require("V8")) install.packages("V8")
+  if(!require("devtools")) install.packages("devtools")
+  devtools::install_github("bhaskarvk/colormap")
+
   canvas = document.getElementById("FractalCanvas");
   ctx = canvas.getContext('2d');
 

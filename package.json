@@ -1,0 +1,13 @@
+{
+  "name": "kk",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Draw-Fractal.js",
+  "keywords": [
+    "fractal"
+  ],
+  "author": "Joe Adamo",
+  "dependencies": {
+    "colormap": "^2.3.2"
+  }
+}
